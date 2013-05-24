@@ -12,7 +12,7 @@ for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1)
 )
 
 set Count=0
-set Clock=1080
+set Clock=%Mine%
 
 set Miner=CG
 
@@ -20,7 +20,7 @@ CALL:KillCG
 CALL:KillGUI
 CALL:StartCG
 
-Automate\barelyclocked gpu=0 core=%Clock% fan=100 > nul
+Automate\barelyclocked gpu=0 core=%Mine% fan=100 > nul
 
 COLOR 0A
 ECHO Starting
