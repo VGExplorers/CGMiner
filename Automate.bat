@@ -35,7 +35,7 @@ TIMEOUT /T 5 > nul
 set MinerOld=%Miner%
 set Miner=CG
 set ClockOld=%Clock%
-set Clock=1080
+set Clock=%Mine%
 
 CALL Automate\Presets.bat
 
