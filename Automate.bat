@@ -1,19 +1,29 @@
 @ECHO OFF
 title Miner Adapter
 
-set Stock=925
-set Mine=1080
-
-set Pool=http://stratum.bitcoin.cz:3333
-set Worker=goidox.Michael
-Set Password=12qwaszx
-
 mode con cols=17 lines=3 > nul
+
+COLOR 0A
+ECHO Starting
+ECHO Automation
 
 SETLOCAL EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "DEL=%%a"
 )
+
+set lineCount=0
+for /f "tokens=*" %%a in (Automate\Settings.txt) do call :processline %%a
+
+set Pool=%line0%
+set Port=%line1%
+set Worker=%line2%
+Set Password=%line3%
+
+set Stock=%line4%
+set Mine=%line5%
+
+CALL:BuildGUIMiner
 
 set Count=0
 set Clock=%Mine%
@@ -25,10 +35,6 @@ CALL:KillGUI
 CALL:StartCG
 
 Automate\barelyclocked gpu=0 core=%Mine% fan=100 > nul
-
-COLOR 0A
-ECHO Starting
-ECHO Automation
 
 goto Detect
 
@@ -61,6 +67,32 @@ IF %Miner%==%MinerOld% ( goto Detect ) ELSE ( CALL:Kill & CALL:Start )
 IF NOT %Clock%==%ClockOld% Automate\barelyclocked gpu=0 core=%Clock% > nul
 
 goto Detect
+
+:BuildGUIMiner
+
+IF NOT EXIST %AppData%\poclbm ( MKDIR %AppData%\poclbm)
+
+ECHO {                                             >  %AppData%\poclbm\poclbm.ini
+ECHO     "profiles": [                             >> %AppData%\poclbm\poclbm.ini
+ECHO         {                                     >> %AppData%\poclbm\poclbm.ini
+ECHO             "username": "%Worker%",           >> %AppData%\poclbm\poclbm.ini
+ECHO             "balance_auth_token": "",         >> %AppData%\poclbm\poclbm.ini
+ECHO             "name": "Slush",                  >> %AppData%\poclbm\poclbm.ini
+ECHO             "hostname": "%Pool%",             >> %AppData%\poclbm\poclbm.ini
+ECHO             "external_path": "",              >> %AppData%\poclbm\poclbm.ini
+ECHO             "affinity_mask": 0,               >> %AppData%\poclbm\poclbm.ini
+ECHO             "flags": "-v -w256 -f100",        >> %AppData%\poclbm\poclbm.ini
+ECHO             "autostart": true,                >> %AppData%\poclbm\poclbm.ini
+ECHO             "device": 0,                      >> %AppData%\poclbm\poclbm.ini
+ECHO             "password": "%Password%",         >> %AppData%\poclbm\poclbm.ini
+ECHO             "port": "%Port%"                  >> %AppData%\poclbm\poclbm.ini
+ECHO         }                                     >> %AppData%\poclbm\poclbm.ini
+ECHO     ],                                        >> %AppData%\poclbm\poclbm.ini
+ECHO     "show_opencl_warning": true,              >> %AppData%\poclbm\poclbm.ini
+ECHO     "start_minimized": true                   >> %AppData%\poclbm\poclbm.ini
+ECHO }                                             >> %AppData%\poclbm\poclbm.ini
+
+GOTO:EOF
 
 :Kill
 
@@ -95,13 +127,13 @@ GOTO:EOF
 
 :StartCG
 
-START "" /min "CGMiner\cgminer.exe" -o %Pool% -u %Worker% -p %Password% -I 9 -k diablo -v 1 -w 256 > nul
+START "" /min "CGMiner\cgminer.exe" -o %Pool%:%Port% -u %Worker% -p %Password% -I 9 -k diablo -v 1 -w 256 > nul
 
 GOTO:EOF
 
 :StartGUI
 
-START "" /min "GUIMiner\guiminer.exe"
+START "" "GUIMiner\guiminer.exe"
 
 GOTO:EOF
 
@@ -112,3 +144,10 @@ findstr /v /a:%1 /R "^$" "%~2" nul
 del "%~2" > nul 2>&1
 
 GOTO :EOF
+
+:ProcessLine
+
+set line%lineCount%=%*
+set /a lineCount+=1
+
+GOTO:EOF
