@@ -4,6 +4,10 @@ title Miner Adapter
 set Stock=925
 set Mine=1080
 
+set Pool=http://stratum.bitcoin.cz:3333
+set Worker=goidox.Michael
+Set Password=12qwaszx
+
 mode con cols=17 lines=3 > nul
 
 SETLOCAL EnableDelayedExpansion
@@ -91,7 +95,7 @@ GOTO:EOF
 
 :StartCG
 
-START "" /min "CGMiner\cgminer.exe" -o http://stratum.bitcoin.cz:3333 -u goidox.Michael -p 12qwaszx -I 9 -k diablo -v 1 -w 256 > nul
+START "" /min "CGMiner\cgminer.exe" -o %Pool% -u %Worker% -p %Password% -I 9 -k diablo -v 1 -w 256 > nul
 
 GOTO:EOF
 
