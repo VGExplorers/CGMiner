@@ -1,19 +1,25 @@
 @ECHO OFF
 title Miner Adapter
 
-mode con cols=17 lines=3 > nul
+mode con cols=46 lines=4 > nul
 
 COLOR 0A
-ECHO Starting
-ECHO Automation
+ECHO Starting Automation
 
 SETLOCAL EnableDelayedExpansion
+
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "DEL=%%a"
 )
 
+set i=0
+for /F "tokens=* delims=#" %%a in (Automate\Presets.txt) do (
+   set /A i+=1
+   set Presets[!i!]=%%a
+)
+
 set lineCount=0
-for /f "tokens=*" %%a in (Automate\Settings.txt) do call :processline %%a
+for /f "tokens=*" %%a in (Automate\Settings.txt) do call :ProcessLine %%a
 
 set Pool=%line0%
 set Port=%line1%
@@ -25,6 +31,7 @@ set Mine=%line5%
 
 CALL:BuildGUIMiner
 
+set Miner=No 
 set Count=0
 set Clock=%Mine%
 
@@ -37,30 +44,44 @@ goto Detect
 
 :Detect
 
+TIMEOUT /T 5 > nul
+
 set MinerOld=%Miner%
 set Miner=CG
 set ClockOld=%Clock%
 set Clock=%Mine%
 
-CALL Automate\Presets.bat
+set Running=3
+FOR /L %%i in (3,5,%i%) do ( 
+     tasklist /nh /fi "imagename eq !Presets[%%i]!" | find /i "!Presets[%%i]!" > nul && (
+          set Running=%%i        
+))
+set /A TitleSetting=%Running%-1
+set Title=!Presets[%TitleSetting%]!
+set /A MinerSetting=%Running%+1
+set Miner=!Presets[%MinerSetting%]!
+set /A ClockSetting=%Running%+2
+IF !Presets[%ClockSetting%]! EQU Mine ( set Clock=%Mine% ) ELSE ( set Clock=%Stock% )
+
 
 IF %Miner%==CG  ( set /a Count=%Count%+1 ) ELSE ( set Count=0 )
 IF %Count%==720 ( set Count=0 & CALL:KillCG & CALL:StartCG )
 
 cls
+call :ColorText 0F "Playing"
+call :ColorText 0B " %Title%"
+ECHO.
 call :ColorText 0F "Miner"
 IF %Miner%==CG ( set Color=0A ) ELSE ( IF %Miner%==GUI ( set Color=0E ) ELSE ( set Color=0C ))
-call :ColorText %Color% "  %Miner%Miner"
+call :ColorText %Color% "   %Miner%Miner"
 ECHO.
 call :ColorText 0F "Clock"
 IF %Clock%==%Mine% ( set Color=0A ) ELSE ( set Color=0E )
-call :ColorText %Color% "  %Clock%"
+call :ColorText %Color% "   %Clock%"
 
 IF %Miner%==%MinerOld% ( goto Detect ) ELSE ( CALL:Kill & CALL:Start )
 
 IF NOT %Clock%==%ClockOld% Automate\barelyclocked gpu=0 core=%Clock% > nul
-
-TIMEOUT /T 5 > nul
 
 goto Detect
 
