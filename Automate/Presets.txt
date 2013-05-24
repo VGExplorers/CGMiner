@@ -1,0 +1,60 @@
+____________________________________________________
+Nothing
+-
+CG
+Mine
+____________________________________________________
+Arma 2 Operation Arrowhead
+arma2oa.exe
+GUI
+Stock
+____________________________________________________
+Battlefield 3
+bf3.exe
+GUI
+Stock
+____________________________________________________
+Battlefield Bad Company 2
+BFBC2Game.exe
+GUI
+Stock
+____________________________________________________
+Call of Duty Black Ops 2 Multiplayer
+t6mp.exe
+GUI
+Stock
+____________________________________________________
+Far Cry 3
+fc3.exe
+GUI
+Stock
+____________________________________________________
+Far Cry 3 Blood Dragon
+fc3_blooddragon.exe
+GUI
+Stock
+____________________________________________________
+Valve Game
+hl2.exe
+None
+Stock
+____________________________________________________
+Metro 2033
+metro2033.exe
+GUI
+Stock
+____________________________________________________
+Metro Last Light
+metroLL.exe
+GUI
+Mine
+____________________________________________________
+MineCraft
+javaw.exe
+GUI
+Stock
+____________________________________________________
+VLC Media Player
+vlc.exe
+GUI
+Mine
