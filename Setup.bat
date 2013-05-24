@@ -1,5 +1,19 @@
 @ECHO OFF
 
+ECHO Example Setup
+ECHO Pool               mining.bitcoin.cz
+ECHO Port Number        8332
+ECHO Worker Username    User.Worker
+ECHO Password           password123
+ECHO Stock Clock Speed  800               Recommended- Double check your
+ECHO                                                   specific video card's stock
+ECHO                                                   clock core speed
+ECHO Mining Clock Speed 850               Warning- Overclocking Setting, be careful
+ECHO                                               with this, keep the same as
+ECHO                                               Stock Clock Speed if you don't
+ECHO                                               want to overclock
+ECHO.
+
 set /P     Pool="Pool               "
 ECHO %Pool%     > Automate\Settings.txt
 
