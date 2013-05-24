@@ -28,19 +28,14 @@ CALL:BuildGUIMiner
 set Count=0
 set Clock=%Mine%
 
-set Miner=CG
-
 CALL:KillCG
 CALL:KillGUI
-CALL:StartCG
 
 Automate\barelyclocked gpu=0 core=%Mine% fan=100 > nul
 
 goto Detect
 
 :Detect
-
-TIMEOUT /T 5 > nul
 
 set MinerOld=%Miner%
 set Miner=CG
@@ -49,9 +44,9 @@ set Clock=%Mine%
 
 CALL Automate\Presets.bat
 
-set /a Count=%Count%+1
-
-IF %Count%==720 ( IF %Miner%==CG ( IF %Miner%==%MinerOld% ( set Count=0 & CALL:KillCG & CALL:StartCG )))
+IF %Miner%==GUI ( set Count=0 )
+IF %Miner%==CG  ( set /a Count=%Count%+1 )
+IF %Count%==720 ( set Count=0 & CALL:KillCG & CALL:StartCG )
 
 cls
 call :ColorText 0F "Miner"
@@ -65,6 +60,8 @@ call :ColorText %Color% "  %Clock%"
 IF %Miner%==%MinerOld% ( goto Detect ) ELSE ( CALL:Kill & CALL:Start )
 
 IF NOT %Clock%==%ClockOld% Automate\barelyclocked gpu=0 core=%Clock% > nul
+
+TIMEOUT /T 5 > nul
 
 goto Detect
 
