@@ -41,11 +41,11 @@ CALL Automate\Presets.bat
 
 set /a Count=%Count%+1
 
-IF %Count%==360 ( IF %Miner%==CG ( IF %Miner%==%MinerOld% ( set Count=0 & CALL:KillCG & CALL:StartCG )))
+IF %Count%==720 ( IF %Miner%==CG ( IF %Miner%==%MinerOld% ( set Count=0 & CALL:KillCG & CALL:StartCG )))
 
 cls
 call :ColorText 0F "Miner"
-IF %Miner%==CG ( set Color=0A ) ELSE ( set Color=0E )
+IF %Miner%==CG ( set Color=0A ) ELSE ( IF %Miner%==GUI ( set Color=0E ) ELSE ( set Color=0C ))
 call :ColorText %Color% "  %Miner%Miner"
 ECHO.
 call :ColorText 0F "Clock"
@@ -85,7 +85,7 @@ GOTO:EOF
 
 :Start
 
-IF %Miner%==CG ( CALL:StartCG ) ELSE ( CALL:StartGUI )
+IF %Miner%==CG ( CALL:StartCG ) ELSE ( IF %Miner%==GUI CALL:StartGUI )
 
 GOTO:EOF
 

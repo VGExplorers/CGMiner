@@ -38,7 +38,7 @@ tasklist /nh /fi "imagename eq fc3_blooddragon.exe" | find /i "fc3_blooddragon.e
      set Count=0
 )
 tasklist /nh /fi "imagename eq hl2.exe" | find /i "hl2.exe" > nul && (
-     set Miner=GUI
+     set Miner=No 
      set Clock=%Stock%
      set Count=0
 )
