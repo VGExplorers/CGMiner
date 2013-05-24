@@ -54,7 +54,7 @@ javaw.exe
 GUI
 Stock
 ____________________________________________________
-VLC Media Player
+VLC
 vlc.exe
 GUI
 Mine
