@@ -44,8 +44,7 @@ set Clock=%Mine%
 
 CALL Automate\Presets.bat
 
-IF %Miner%==GUI ( set Count=0 )
-IF %Miner%==CG  ( set /a Count=%Count%+1 )
+IF %Miner%==CG  ( set /a Count=%Count%+1 ) ELSE ( set Count=0 )
 IF %Count%==720 ( set Count=0 & CALL:KillCG & CALL:StartCG )
 
 cls
