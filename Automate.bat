@@ -68,7 +68,7 @@ IF %Miner%==CG  ( set /a Count=%Count%+1 ) ELSE ( set Count=0 )
 IF %Count%==720 ( set Count=0 & CALL:KillCG & CALL:StartCG )
 
 cls
-call :ColorText 0F "Playing"
+call :ColorText 0F "Running"
 call :ColorText 0B " %Title%"
 ECHO.
 call :ColorText 0F "Miner"
