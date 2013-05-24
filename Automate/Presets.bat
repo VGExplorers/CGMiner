@@ -7,6 +7,11 @@ tasklist /nh /fi "imagename eq t6mp.exe" | find /i "t6mp.exe" > nul && (
      set Clock=%Stock%
      set Count=0
 )
+tasklist /nh /fi "imagename eq javaw.exe" | find /i "javaw.exe" > nul && (
+     set Miner=GUI
+     set Clock=%Stock%
+     set Count=0
+)
 tasklist /nh /fi "imagename eq arma2oa.exe" | find /i "arma2oa.exe" > nul && (
      set Miner=GUI
      set Clock=%Stock%
